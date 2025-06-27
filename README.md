@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This package provides a vacuum gripper control interface for RoboStore.
+This package provides a vacuum gripper control for RoboStore.
 
 ## Prerequisites
 
