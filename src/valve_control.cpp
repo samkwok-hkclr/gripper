@@ -81,13 +81,23 @@ void ValveControl::valve_control_cb(
   const std::shared_ptr<SetBool::Request> request, 
   std::shared_ptr<SetBool::Response> response)
 {
+  if (simulation_)
+  {
+    {
+      const std::lock_guard<std::mutex> lock(mutex_);
+      gripper_status = request->data;
+    }
+    response->success = true;
+    return;
+  }
+
   COData msg(rosidl_runtime_cpp::MessageInitialization::ZERO);
  
   msg.index = 0x6020;
   msg.subindex = 0x0;
 
   // Send non-zero value turn-on the valve
-  msg.data = request->data ? 0xFF : 0x0;
+  msg.data = request->data ? 0xF : 0x0;
 
   tpdo_pub_->publish(msg);
 

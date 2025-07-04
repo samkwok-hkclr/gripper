@@ -1,0 +1,7 @@
+valve_control:
+  ros__parameters:
+    sim: true
+
+vacuum_sensor:
+  ros__parameters:
+    sim: true
