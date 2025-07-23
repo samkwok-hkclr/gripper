@@ -35,6 +35,9 @@ public:
 
   float back() const
   {
+    if (history.empty())
+      return 0.0;
+    
     return history.back();
   }
 

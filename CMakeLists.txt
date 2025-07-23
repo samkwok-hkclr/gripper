@@ -19,30 +19,32 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
 find_package(sensor_msgs REQUIRED)
-find_package(canopen_interfaces REQUIRED)
+find_package(can_msgs REQUIRED)
 
 include_directories(
   include 
 )
 
-add_executable(vacuum_gripper_node 
-  src/vacuum_gripper_node.cpp
-  src/valve_control.cpp
-  src/vacuum_sensor.cpp)
-target_include_directories(vacuum_gripper_node PUBLIC
+add_executable(vacuum_gripper 
+  src/main.cpp
+  src/pressure_sensor.cpp
+  src/ultrasonic_sensor.cpp
+  src/valve_ctrl.cpp
+  src/vacuum_gripper.cpp)
+target_include_directories(vacuum_gripper PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
-ament_target_dependencies(vacuum_gripper_node 
+ament_target_dependencies(vacuum_gripper 
   rclcpp 
   std_msgs
   std_srvs
   sensor_msgs
-  canopen_interfaces
+  can_msgs
 )
-target_compile_features(vacuum_gripper_node PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+target_compile_features(vacuum_gripper PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
 install(TARGETS 
-  vacuum_gripper_node
+  vacuum_gripper
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
