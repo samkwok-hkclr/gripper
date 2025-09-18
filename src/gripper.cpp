@@ -89,7 +89,7 @@ Gripper::Gripper(const rclcpp::NodeOptions& options)
     timer_cbg_);
 
   release_pressure_timer_ = create_wall_timer(
-    std::chrono::milliseconds(500), 
+    std::chrono::milliseconds(1000), 
     std::bind(&Gripper::release_pressure_cb, this), 
     timer_cbg_);
 
