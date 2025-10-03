@@ -1,6 +1,6 @@
 vacuum_gripper:
   ros__parameters:
-    sim: true
+    sim: false
     can_id: 0x55
     can_namespace: bottom_orin
     can_interface: can0

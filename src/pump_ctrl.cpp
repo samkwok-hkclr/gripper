@@ -38,27 +38,31 @@ void VacuumGripper::vac_ctrl_cb(
       msg.data[0] = 0x1;
       msg.data[1] = 0x0;
       tpdo_pub_->publish(msg);
+      RCLCPP_INFO(get_logger(), "Turn-on");
     }
     else
     {
       msg.data[0] = 0x0;
-      msg.data[1] = 0x1;
+      msg.data[1] = 0x0;
       tpdo_pub_->publish(msg);
+      RCLCPP_INFO(get_logger(), "Turn-off");
 
-      rclcpp::TimerBase::SharedPtr timer = create_wall_timer(std::chrono::milliseconds(500), 
-        [this, &timer]() {
-          Frame release_msg(rosidl_runtime_cpp::MessageInitialization::ZERO);
+      // rclcpp::TimerBase::SharedPtr timer = create_wall_timer(std::chrono::milliseconds(500), 
+      //   [this, &timer]() {
+      //     Frame release_msg(rosidl_runtime_cpp::MessageInitialization::ZERO);
 
-          release_msg.id = RPDO_1 + can_id_;
-          release_msg.dlc = 2;
+      //     release_msg.id = RPDO_1 + can_id_;
+      //     release_msg.dlc = 2;
 
-          release_msg.data[0] = 0x0;
-          release_msg.data[1] = 0x0;
+      //     release_msg.data[0] = 0x0;
+      //     release_msg.data[1] = 0x0;
 
-          tpdo_pub_->publish(release_msg);
+      //     tpdo_pub_->publish(release_msg);
+      //     RCLCPP_INFO(get_logger(), "Release");
           
-          timer->cancel();
-      });
+
+      //     timer->cancel();
+      // });
     }
   }
 

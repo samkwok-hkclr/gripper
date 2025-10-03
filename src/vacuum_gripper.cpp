@@ -46,7 +46,7 @@ VacuumGripper::VacuumGripper(const rclcpp::NodeOptions& options)
   rpdo_options.callback_group = rpdo_cbg_;
 
   state_pub_timer_ = create_wall_timer(
-    std::chrono::seconds(1), 
+    std::chrono::seconds(100), 
     std::bind(&VacuumGripper::vac_state_cb, this), 
     pub_cbg_);
   
@@ -63,14 +63,16 @@ VacuumGripper::VacuumGripper(const rclcpp::NodeOptions& options)
   std::string tpdo_topic, rpdo_topic;
   if (can_ns_.empty())
   {
-    tpdo_topic = "/" + can_ns_ + "/" + can_interface_ + "/to_can_bus";
-    rpdo_topic = "/" + can_ns_ + "/" + can_interface_ + "/from_can_bus";
-  }
-  else
-  {
     tpdo_topic = "/" + can_interface_ + "/to_can_bus";
     rpdo_topic = "/" + can_interface_ + "/from_can_bus";
   }
+  else
+  {
+    tpdo_topic = "/" + can_ns_ + "/" + can_interface_ + "/to_can_bus";
+    rpdo_topic = "/" + can_ns_ + "/" + can_interface_ + "/from_can_bus";
+  }
+  RCLCPP_INFO(get_logger(), "can_recv_topic: %s", tpdo_topic.c_str());
+  RCLCPP_INFO(get_logger(), "can_send_topic: %s", rpdo_topic.c_str());
 
   tpdo_pub_ = create_publisher<Frame>(tpdo_topic, 10);
 
