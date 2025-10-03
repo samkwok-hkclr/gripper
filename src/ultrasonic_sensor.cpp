@@ -14,20 +14,8 @@ void VacuumGripper::ctrl_ultrasonic_sensor(bool enable)
   RCLCPP_INFO(get_logger(), "%s ultrasonic sensor", enable ? "Enable" : "Disable");
 }
 
-void VacuumGripper::insert_range(const uint8_t* data)
+void VacuumGripper::insert_range(float range, float temp)
 {
-  if (!data) 
-  {
-    RCLCPP_ERROR(get_logger(), "Null pointer in %s", __FUNCTION__);
-    return;
-  }
-
-  // According to STM32 implementation to decode the value
-  float range = static_cast<float>((data[0] << 8) | data[1]) / 10000.0f; 
-  float temp = static_cast<float>((data[2] << 8) | data[3]);
-  // not necessary
-  // uint16_t time_of_flight = (data[5] << 8) | data[4];
-
   RCLCPP_DEBUG(get_logger(), "range: %.4f, temp: %.1f", range, temp);
 
   const std::lock_guard<std::mutex> lock(mutex_);

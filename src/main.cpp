@@ -1,6 +1,6 @@
 #include "vacuum_gripper/vacuum_gripper.hpp"
 
-int main(int argc, char ** argv)
+int main(int argc, char** argv)
 {
   rclcpp::init(argc, argv);
 

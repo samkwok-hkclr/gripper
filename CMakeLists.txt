@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(vacuum_gripper)
+project(gripper)
 
 if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 99)
@@ -28,8 +28,9 @@ include_directories(
 add_executable(vacuum_gripper 
   src/main.cpp
   src/pressure_sensor.cpp
+  src/pump_ctrl.cpp
+  src/tpdo_process.cpp
   src/ultrasonic_sensor.cpp
-  src/valve_ctrl.cpp
   src/vacuum_gripper.cpp)
 target_include_directories(vacuum_gripper PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -46,6 +47,12 @@ target_compile_features(vacuum_gripper PUBLIC c_std_99 cxx_std_17)  # Require C9
 install(TARGETS 
   vacuum_gripper
   DESTINATION lib/${PROJECT_NAME})
+
+install(DIRECTORY
+  launch
+  params
+  DESTINATION share/${PROJECT_NAME}/
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

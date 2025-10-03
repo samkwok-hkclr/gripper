@@ -1,0 +1,9 @@
+vacuum_gripper:
+  ros__parameters:
+    sim: true
+    can_id: 0x55
+    can_namespace: bottom_orin
+    can_interface: can0
+    enable_ultrasonic: false
+    enable_clip: false
+    leak_threshold: -50000.0 # unit: Pa

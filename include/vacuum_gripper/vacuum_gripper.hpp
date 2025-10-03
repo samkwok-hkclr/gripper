@@ -39,28 +39,33 @@ public:
   explicit VacuumGripper(const rclcpp::NodeOptions& options);
   ~VacuumGripper();
 
-  void valve_status_cb(void);
+  void vac_state_cb(void);
   void pub_pressure_cb(void);
   void pub_range_cb(void);
+
+  void tpdo_1_cb(const uint8_t* data);
+  void tpdo_2_cb(const uint8_t* data);
+  void tpdo_3_cb(const uint8_t* data);
+  void tpdo_4_cb(const uint8_t* data);
 
   void rpdo_cb(const Frame::SharedPtr msg);
 
   void ctrl_ultrasonic_sensor(bool enable);
 
-  void valve_control_cb(
+  void vac_ctrl_cb(
     const std::shared_ptr<SetBool::Request> request, 
     std::shared_ptr<SetBool::Response> response);
 
-  void insert_pressure(const uint8_t* data);
-  void insert_range(const uint8_t* data);
-  void insert_valve_state(const uint8_t* data);
+  void insert_pressure(float pressure);
+  void insert_range(float range, float temp);
 
 private:
   std::mutex mutex_;
 
   bool simulation_;
   uint8_t can_id_;
-  uint8_t no_of_channel_;
+  std::string can_ns_;
+  std::string can_interface_;
 
   float field_of_view_;
   float min_range_;
@@ -68,8 +73,9 @@ private:
   float range_;
   float temp_;
   bool enable_ultrasonic_;
+  bool enable_clip_;
 
-  std::vector<bool> gripper_status;
+  bool vac_gripper_state = 0;
 
   FluidPressureTracker tracker_;
 
@@ -78,7 +84,7 @@ private:
   rclcpp::CallbackGroup::SharedPtr rpdo_cbg_;
   rclcpp::CallbackGroup::SharedPtr srv_cbg_;
 
-  rclcpp::TimerBase::SharedPtr status_pub_timer_;
+  rclcpp::TimerBase::SharedPtr state_pub_timer_;
   rclcpp::TimerBase::SharedPtr pressure_pub_timer_;
   rclcpp::TimerBase::SharedPtr range_pub_timer_;
 
@@ -94,16 +100,15 @@ private:
 
   std::unordered_map<uint16_t, std::function<void(const uint8_t*)>> VALID_FRAME_;
 
-  const uint16_t TPDO_1 = 0x180;
-  const uint16_t TPDO_2 = 0x280;
-  const uint16_t TPDO_3 = 0x380;
-  const uint16_t TPDO_4 = 0x480;
+  constexpr static uint16_t TPDO_1 = 0x180;
+  constexpr static uint16_t TPDO_2 = 0x280;
+  constexpr static uint16_t TPDO_3 = 0x380;
+  constexpr static uint16_t TPDO_4 = 0x480;
 
-  const uint16_t RPDO_1 = 0x200;
-  const uint16_t RPDO_2 = 0x300;
-  const uint16_t RPDO_3 = 0x400;
-  const uint16_t RPDO_4 = 0x500;
-
+  constexpr static uint16_t RPDO_1 = 0x200;
+  constexpr static uint16_t RPDO_2 = 0x300;
+  constexpr static uint16_t RPDO_3 = 0x400;
+  constexpr static uint16_t RPDO_4 = 0x500;
 };
 
 #endif // VACUUM_GRIPPER_HPP__
