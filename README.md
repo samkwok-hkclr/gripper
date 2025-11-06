@@ -1,9 +1,9 @@
-# Vacuum Gripper
+# Gripper
 
 ## Introduction
 
-This package provides a vacuum gripper control for RoboStore.
+This package provides a gripper control for dual arm robor in RoboStore.
 
 ## Prerequisites
 
-- `ros2_canopen` package
+- socketcan interface installed

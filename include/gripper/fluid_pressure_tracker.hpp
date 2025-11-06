@@ -36,7 +36,7 @@ public:
   float back() const
   {
     if (history.empty())
-      return 0.0;
+      return 0.0f;
     
     return history.back();
   }
@@ -44,7 +44,7 @@ public:
   float variance() const 
   {
     if (history.empty()) 
-      return 0.0;
+      return 0.0f;
 
     float mean = sum / history.size();
     
@@ -59,8 +59,8 @@ public:
 private:
   std::deque<float> history; // store fluid pressure values
 
-  float sum = 0.0;
-  float sum_squares = 0.0;
+  float sum = 0.0f;
+  float sum_squares = 0.0f;
   size_t max_size;
 
 };

@@ -1,6 +1,6 @@
-#include "vacuum_gripper/vacuum_gripper.hpp"
+#include "gripper/gripper.hpp"
 
-void VacuumGripper::ctrl_ultrasonic_sensor(bool enable)
+void Gripper::ctrl_ultrasonic_sensor(bool enable)
 {
   Frame msg(rosidl_runtime_cpp::MessageInitialization::ZERO);
 
@@ -14,7 +14,7 @@ void VacuumGripper::ctrl_ultrasonic_sensor(bool enable)
   RCLCPP_INFO(get_logger(), "%s ultrasonic sensor", enable ? "Enable" : "Disable");
 }
 
-void VacuumGripper::insert_range(float range, float temp)
+void Gripper::insert_range(float range, float temp)
 {
   RCLCPP_DEBUG(get_logger(), "range: %.4f, temp: %.1f", range, temp);
 
@@ -23,7 +23,7 @@ void VacuumGripper::insert_range(float range, float temp)
   temp_ = temp;
 }
 
-void VacuumGripper::pub_range_cb(void)
+void Gripper::pub_range_cb(void)
 {
   Range range_msg;
   range_msg.header.stamp = get_clock()->now();

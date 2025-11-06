@@ -1,6 +1,6 @@
-#include "vacuum_gripper/vacuum_gripper.hpp"
+#include "gripper/gripper.hpp"
 
-void VacuumGripper::insert_pressure(float pressure)
+void Gripper::insert_pressure(float pressure)
 {
   RCLCPP_DEBUG(get_logger(), "pressure: %f", pressure);
 
@@ -8,11 +8,11 @@ void VacuumGripper::insert_pressure(float pressure)
   tracker_.insert_pressure(pressure);
 }
 
-void VacuumGripper::pub_pressure_cb(void)
+void Gripper::pub_pressure_cb(void)
 {
   FluidPressure msg;
   msg.header.stamp = get_clock()->now();
-  msg.header.frame_id = "tcp";
+  msg.header.frame_id = "left_tcp";
 
   if (simulation_)
   {

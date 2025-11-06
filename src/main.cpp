@@ -1,4 +1,4 @@
-#include "vacuum_gripper/vacuum_gripper.hpp"
+#include "gripper/gripper.hpp"
 
 int main(int argc, char** argv)
 {
@@ -7,7 +7,7 @@ int main(int argc, char** argv)
   auto exec = std::make_shared<rclcpp::executors::MultiThreadedExecutor>();
   auto options = rclcpp::NodeOptions();
   
-  auto node = std::make_shared<VacuumGripper>(options);
+  auto node = std::make_shared<Gripper>(options);
 
   exec->add_node(node->get_node_base_interface());
   exec->spin();

@@ -20,39 +20,36 @@ find_package(std_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(can_msgs REQUIRED)
+find_package(robotic_platform_msgs REQUIRED)
 
 include_directories(
   include 
 )
 
-add_executable(vacuum_gripper 
+add_executable(gripper 
   src/main.cpp
+  src/gripper.cpp
   src/pressure_sensor.cpp
   src/pump_ctrl.cpp
-  src/tpdo_process.cpp
-  src/ultrasonic_sensor.cpp
-  src/vacuum_gripper.cpp)
-target_include_directories(vacuum_gripper PUBLIC
+  src/canopen_process.cpp
+  src/clip.cpp
+  src/ultrasonic_sensor.cpp)
+target_include_directories(gripper PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
-ament_target_dependencies(vacuum_gripper 
+ament_target_dependencies(gripper 
   rclcpp 
   std_msgs
   std_srvs
   sensor_msgs
   can_msgs
+  robotic_platform_msgs
 )
-target_compile_features(vacuum_gripper PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+target_compile_features(gripper PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
 install(TARGETS 
-  vacuum_gripper
+  gripper
   DESTINATION lib/${PROJECT_NAME})
-
-install(DIRECTORY
-  launch
-  params
-  DESTINATION share/${PROJECT_NAME}/
-)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
