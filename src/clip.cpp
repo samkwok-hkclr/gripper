@@ -83,6 +83,9 @@ void Gripper::ctrl_gripper_cb(
 
 void Gripper::gripper_status_cb(void)
 {
+  if (!gripper_pub_ || gripper_pub_->get_subscription_count() == 0)
+    return;
+
   GripperStatus msg;
 
   if (simulation_)
@@ -112,10 +115,12 @@ void Gripper::auto_init_gripper_cb(void)
     msg.dlc = 2;
 
     msg.data[0] = 0x01;
-    msg.data[1] = 0x01;
+    msg.data[1] = 0xA5;
 
     tpdo_pub_->publish(msg);
 
     RCLCPP_INFO(get_logger(), "Initialized the gripper");
+
+    auto_init_gripper_timer_->cancel();
   }
 }

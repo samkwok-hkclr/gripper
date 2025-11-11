@@ -10,6 +10,9 @@ void Gripper::insert_pressure(float pressure)
 
 void Gripper::pub_pressure_cb(void)
 {
+  if (!pressure_pub_ || pressure_pub_->get_subscription_count() == 0)
+    return;
+  
   FluidPressure msg;
   msg.header.stamp = get_clock()->now();
   msg.header.frame_id = "left_tcp";

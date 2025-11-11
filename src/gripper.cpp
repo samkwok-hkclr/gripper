@@ -89,7 +89,7 @@ Gripper::Gripper(const rclcpp::NodeOptions& options)
     timer_cbg_);
 
   release_pressure_timer_ = create_wall_timer(
-    std::chrono::milliseconds(250), 
+    std::chrono::milliseconds(500), 
     std::bind(&Gripper::release_pressure_cb, this), 
     timer_cbg_);
 
@@ -149,7 +149,7 @@ Gripper::Gripper(const rclcpp::NodeOptions& options)
     srv_cbg_);
 
   ctrl_gripper_srv_ = create_service<ControlGripper>(
-    "control_gripper", 
+    "gripper_control", 
     std::bind(&Gripper::ctrl_gripper_cb, this, _1, _2),
     rmw_qos_profile_services_default,
     srv_cbg_);
