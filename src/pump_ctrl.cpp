@@ -2,6 +2,9 @@
 
 void Gripper::vac_state_cb(void)
 {
+  if (!status_pub_ || status_pub_->get_subscription_count() == 0)
+    return;
+  
   Bool msg;
   msg.data = suction_gripper_state.load();
   

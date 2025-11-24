@@ -25,6 +25,12 @@ void Gripper::insert_range(float range, float temp)
 
 void Gripper::pub_range_cb(void)
 {
+  if (!range_pub_ || range_pub_->get_subscription_count() == 0)
+    return;
+
+  if (!temp_pub_ || temp_pub_->get_subscription_count() == 0)
+    return;
+
   Range range_msg;
   range_msg.header.stamp = get_clock()->now();
   range_msg.header.frame_id = "ultrasonic_link";
